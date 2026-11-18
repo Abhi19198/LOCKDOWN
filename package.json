@@ -1,0 +1,1 @@
+{"description":"EventFlow (LOCKDOWN) — a working front-end event manager: create events, register as an attendee, data saved in the browser.","engines":{"node":">=18"},"name":"eventflow-lockdown","private":true,"scripts":{"serve":"python3 -m http.server 8000","test":"node --test tests/*.test.js"},"version":"1.0.0"}
