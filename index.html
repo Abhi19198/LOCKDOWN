@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventFlow - Intelligent Event Management</title>
+    <meta name="description" content="EventFlow is an intelligent event management platform that streamlines your entire event lifecycle with AI-powered features.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo" id="logo">
+                    <i class="fas fa-stream"></i>
+                    EventFlow
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#ai">AI Solutions</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="cta-button" id="getStartedBtn">Get Started</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container hero-content">
+                <h1>Event Management at Your Fingertips</h1>
+                <p>One intelligent platform to streamline your entire event lifecycle. Collaborate seamlessly with all stakeholders and create unforgettable experiences.</p>
+                <div class="hero-buttons">
+                    <button class="cta-button" id="startPlanningBtn">Start Planning</button>
+                    <button class="secondary-button" id="watchDemoBtn">Watch Demo</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section (working app) -->
+        <section class="section events-section" id="events">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Your Events</h2>
+                    <p>Create events, register as an attendee, and keep track of everything &mdash; your data is saved in this browser, no account needed.</p>
+                </div>
+
+                <div class="events-toolbar">
+                    <div class="view-toggle" role="group" aria-label="View as">
+                        <button class="toggle-btn active" id="organizerViewBtn" type="button">Organizer</button>
+                        <button class="toggle-btn" id="attendeeViewBtn" type="button">Attendee</button>
+                    </div>
+                    <div class="events-search">
+                        <input type="search" id="eventSearch" placeholder="Search events by title, organizer..." aria-label="Search events">
+                        <select id="eventFilter" aria-label="Filter events">
+                            <option value="all">All events</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="past">Past</option>
+                            <option value="mine">My registrations</option>
+                        </select>
+                        <select id="eventCategoryFilter" aria-label="Filter by category">
+                            <option value="all">All categories</option>
+                            <option value="conference">Conference</option>
+                            <option value="workshop">Workshop</option>
+                            <option value="meetup">Meetup</option>
+                            <option value="social">Social</option>
+                            <option value="virtual">Virtual</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="attendee-name">
+                        <label for="attendeeName">Your name</label>
+                        <input type="text" id="attendeeName" placeholder="e.g. Abhishek Singh" autocomplete="name">
+                    </div>
+                </div>
+
+                <div class="events-stats" id="eventsStats"></div>
+
+                <div class="event-form-card" id="eventFormCard">
+                    <h3>Create a new event</h3>
+                    <form id="eventForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="eventTitle">Event title *</label>
+                                <input type="text" id="eventTitle" required maxlength="120" placeholder="e.g. Weekend Coding Workshop">
+                            </div>
+                            <div class="form-group">
+                                <label for="eventOrganizer">Organizer name *</label>
+                                <input type="text" id="eventOrganizer" required maxlength="80" placeholder="e.g. Abhishek Singh">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="eventDate">Date *</label>
+                                <input type="date" id="eventDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventTime">Time</label>
+                                <input type="time" id="eventTime" value="10:00">
+                            </div>
+                            <div class="form-group">
+                                <label for="eventCategory">Category</label>
+                                <select id="eventCategory">
+                                    <option value="conference">Conference</option>
+                                    <option value="workshop">Workshop</option>
+                                    <option value="meetup">Meetup</option>
+                                    <option value="social">Social</option>
+                                    <option value="virtual">Virtual</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventDescription">Description</label>
+                            <textarea id="eventDescription" rows="3" maxlength="500" placeholder="What is this event about?"></textarea>
+                        </div>
+                        <p class="form-error" id="eventFormError" hidden></p>
+                        <button type="submit" class="cta-button">Create event</button>
+                    </form>
+                </div>
+
+                <div class="events-grid" id="eventsGrid"></div>
+                <p class="events-empty" id="eventsEmpty" hidden></p>
+                <p class="events-note">Events are stored only in this browser (localStorage). Events marked <span class="badge badge-sample">Sample</span> are examples you can delete &mdash; deleting every event will not bring them back.</p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section" id="features">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Transform Your Event Experience</h2>
+                    <p>EventFlow eliminates the chaos of disconnected tools by creating a single intelligent platform for all your event needs.</p>
+                </div>
+                <div class="features-grid" id="featuresGrid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Real-time Collaboration</h3>
+                        <p>Bring organizers, vendors, sponsors, and attendees together in one platform with seamless communication tools.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3>Centralized Data Hub</h3>
+                        <p>All event information in one place - from attendee lists to vendor contracts and sponsorship details.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>Smart Scheduling</h3>
+                        <p>AI-powered scheduling that automatically finds optimal times and prevents conflicts across all stakeholders.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Vendor Integration</h3>
+                        <p>Connect with preferred vendors, manage contracts, and track deliverables all within the platform.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3>Automated Workflows</h3>
+                        <p>Streamline repetitive tasks with customizable automation that saves time and reduces errors.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>AI-Powered Analytics</h3>
+                        <p>Gain valuable insights with predictive analytics and personalized recommendations for better events.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Section -->
+        <section class="section ai-section" id="ai">
+            <div class="container">
+                <div class="ai-content">
+                    <div class="ai-text">
+                        <h2>Intelligent Event Management Powered by AI</h2>
+                        <p>Our advanced AI algorithms transform how you plan, execute, and analyze events.</p>
+                        
+                        <div class="ai-feature" id="aiFeature1">
+                            <i class="fas fa-brain"></i>
+                            <div>
+                                <h3>Predictive Planning</h3>
+                                <p>AI analyzes past events to forecast attendance, budget needs, and potential challenges.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-feature" id="aiFeature2">
+                            <i class="fas fa-user-friends"></i>
+                            <div>
+                                <h3>Personalized Experiences</h3>
+                                <p>Create tailored event journeys for each attendee based on their preferences and behavior.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-feature" id="aiFeature3">
+                            <i class="fas fa-chart-pie"></i>
+                            <div>
+                                <h3>Post-Event Insights</h3>
+                                <p>Comprehensive analytics that measure ROI, engagement, and satisfaction across all touchpoints.</p>
+                            </div>
+                        </div>
+                        
+                        <button class="cta-button" id="discoverAIBtn">Discover AI Features</button>
+                    </div>
+                    <div class="ai-visual">
+                        <h3>Event Performance Dashboard</h3>
+                        <div class="dashboard">
+                            <div class="dashboard-stats">
+                                <div class="stat-card">
+                                    <div class="stat-value" id="statTotalEvents">0</div>
+                                    <div class="stat-label">Total Events</div>
+                                    
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="statTotalRegistrations">0</div>
+                                    <div class="stat-label">Total Registrations</div>
+                                    
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="statUpcoming">0</div>
+                                    <div class="stat-label">Upcoming Events</div>
+                                    
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="statMyRegistrations">0</div>
+                                    <div class="stat-label">My Registrations</div>
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="dashboard-charts">
+                                <div class="chart-container">
+                                    <div class="chart-title">Registrations by Event</div>
+                                    <div class="chart-bars" id="registrationsChart"></div>
+                                </div>
+                                <div class="chart-container">
+                                    <div class="chart-title">Events by Category</div>
+                                    <div class="chart-bars" id="categoryChart"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="predictive-insights">
+                                <div class="insights-title">
+                                    <i class="fas fa-lightbulb"></i>
+                                    AI-Powered Insights
+                                </div>
+                                <ul class="insights-list" id="insightsList"></ul>
+                            </div>
+                        </div>
+                        <p>Real-time metrics and predictive insights to optimize your event strategy.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="section pricing" id="pricing">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Simple, Transparent Pricing</h2>
+                    <p>Choose the plan that works best for your organization. All plans include core features.</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3 class="pricing-name">Starter</h3>
+                            <div class="pricing-price">₹<span>3,499</span></div>
+                            <div class="pricing-period">per month</div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Up to 100 attendees</li>
+                            <li><i class="fas fa-check"></i> Basic event templates</li>
+                            <li><i class="fas fa-check"></i> Email support</li>
+                            <li><i class="fas fa-check"></i> Basic analytics</li>
+                        </ul>
+                        <button class="cta-button" style="width: 100%;" data-plan="starter">Get Started</button>
+                    </div>
+                    <div class="pricing-card popular">
+                        <div class="pricing-header">
+                            <h3 class="pricing-name">Professional</h3>
+                            <div class="pricing-price">₹<span>6,999</span></div>
+                            <div class="pricing-period">per month</div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Up to 500 attendees</li>
+                            <li><i class="fas fa-check"></i> Advanced event templates</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                            <li><i class="fas fa-check"></i> AI-powered recommendations</li>
+                            <li><i class="fas fa-check"></i> Vendor management</li>
+                        </ul>
+                        <button class="cta-button" style="width: 100%;" data-plan="professional">Get Started</button>
+                    </div>
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3 class="pricing-name">Enterprise</h3>
+                            <div class="pricing-price">₹<span>14,999</span></div>
+                            <div class="pricing-period">per month</div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Unlimited attendees</li>
+                            <li><i class="fas fa-check"></i> Custom event templates</li>
+                            <li><i class="fas fa-check"></i> 24/7 dedicated support</li>
+                            <li><i class="fas fa-check"></i> Advanced AI analytics</li>
+                            <li><i class="fas fa-check"></i> API access</li>
+                            <li><i class="fas fa-check"></i> White-label options</li>
+                        </ul>
+                        <button class="cta-button" style="width: 100%;" data-plan="enterprise">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="section testimonials" id="testimonials">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Trusted by Event Professionals</h2>
+                    <p>See how EventFlow has transformed event management for organizations worldwide.</p>
+                </div>
+                <div class="testimonial-grid" id="testimonialGrid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            "EventFlow eliminated our coordination headaches. We now manage conferences with 5,000+ attendees seamlessly across teams."
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SM</div>
+                            <div class="author-info">
+                                <h4>Sarah Mitchell</h4>
+                                <p>Event Director, TechConf Global</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            "The AI recommendations have helped us increase sponsorship revenue by 32% while reducing planning time by 45%."
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">JR</div>
+                            <div class="author-info">
+                                <h4>James Rodriguez</h4>
+                                <p>Head of Events, Innovate Inc.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            "Vendor management used to be our biggest challenge. With EventFlow, we've streamlined our entire supply chain."
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">EP</div>
+                            <div class="author-info">
+                                <h4>Elena Petrov</h4>
+                                <p>Operations Manager, Festive Events Co.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section" id="contact">
+            <div class="container cta-content">
+                <h2>Ready to Transform Your Events?</h2>
+                <p>Join thousands of event professionals who have streamlined their workflow with EventFlow's intelligent platform.</p>
+                <button class="cta-button" id="freeTrialBtn" style="background: white; color: var(--primary);">Start Your Free Trial</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EventFlow</h3>
+                    <p>The all-in-one intelligent platform for seamless event management and collaboration.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Solutions</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Corporate Events</a></li>
+                        <li><a href="#">Conferences</a></li>
+                        <li><a href="#">Trade Shows</a></li>
+                        <li><a href="#">Festivals</a></li>
+                        <li><a href="#">Virtual Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">Webinars</a></li>
+                        <li><a href="#">Event Guides</a></li>
+                        <li><a href="#">Support Center</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 EventFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Modal -->
+    <div class="modal" id="demoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Watch EventFlow Demo</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="background: var(--dark-bg); height: 300px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; border: 1px solid var(--dark-border);">
+                    <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent);"></i>
+                </div>
+                <p>See how EventFlow can transform your event management process in just 5 minutes.</p>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email to watch the demo">
+                </div>
+                <button class="cta-button" style="width: 100%;">Watch Demo Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/events.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
